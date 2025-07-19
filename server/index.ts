@@ -8,16 +8,16 @@ app.use(express.json());
 const posts: any = [];
 
 const requestLoggerMiddleware: RequestHandler = (req, res, next) => {
-    console.log('New Request: ', req.path, ' -body: ', req.body );
+    console.log(req.method, req.path, ' -body: ', req.body );
     next();
 };
 
 app.use(requestLoggerMiddleware);
 
-app.use((req, res, next) => {
-    console.log(Date.now());
-    next();
-});
+// app.use((req, res, next) => {
+//     console.log(Date.now());
+//     next();
+// });
 
 app.get('/posts', (request, response) => {
     response.send({ posts });
