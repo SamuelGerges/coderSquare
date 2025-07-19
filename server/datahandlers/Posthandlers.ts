@@ -1,3 +1,4 @@
+import { CreatePostRequest, CreatePostResponse, ListPostRequest, ListPostResponse } from "../api";
 import { db } from "../datastore";
 import { Post } from "../types";
 import { ExpressHandler } from "../types";
@@ -7,14 +8,10 @@ import crypto from 'crypto';
 
 
 
-export const listPostHandler: ExpressHandler<{}, {}> = (request, response) => {
+export const listPostHandler: ExpressHandler<ListPostRequest, ListPostResponse> = (request, response) => {
+    // throw new Error('oops!');
     response.send({ posts: db.listPost() });
 }; 
-
-
-type CreatePostRequest = Pick<Post, 'title'|'url'|'userId'>
-
-interface CreatePostResponse {};
 
 export const createPostHandler : ExpressHandler<CreatePostRequest , CreatePostResponse> = (req, res) => {
 

@@ -1,7 +1,9 @@
-import express, { RequestHandler } from 'express';
+import express, { ErrorRequestHandler, RequestHandler } from 'express';
 
 import {db} from './datastore/index';
 import { listPostHandler, createPostHandler } from './datahandlers/Posthandlers';
+import { nextTick } from 'process';
+import { log } from 'console';
 
 const app = express();
 
@@ -24,5 +26,12 @@ app.use(requestLoggerMiddleware);
 
 app.get('/posts', listPostHandler);
 app.post('/posts', createPostHandler);
+
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+    console.error("Uncaught Exception: ", err);
+    return res.status(500).send('Opps!, an unexpected error occurred, please try again');
+}
+
+app.use(errorHandler);
 
 app.listen(3000);
